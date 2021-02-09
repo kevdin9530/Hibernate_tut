@@ -21,3 +21,32 @@
  - Database server
  - Hibernate JAR files and JDBC driver
  
+ To test ur JDBC is working properly. simply create a class
+ give a string about the connect url  to your database
+ ex: "jdbc:mysql://localhost:3306/hb_student_tracker?useSSL=false&serverTimezone=UTC"
+ then use Connection class = DriverManager.getConnection( url,id,pass) to connect
+ 
+ 
+ Hibernate - Development Process:
+ - Add Hibernate config file
+ - Annotate java class
+ - Develop java code to perform database operation
+ 
+ Hibernate config file gonna consist of database url, id and pass and other small extra stuff 
+ to connect to the database.
+ 
+ Entity class is a fancy name for a java class which is mapped to a database table.
+ Basically a java class with getter/setter and annotate to map with the database 
+ There are 2 options for Mapping
+ 1. XML config file (legacy,old).
+ 2. Java annotation (modern, preferred). 
+ In this demo we only focus on the modern (java anno)
+ To map with java anno, we need:
+ - Step 1: map class to database table
+ - Step 2: map fields to database column
+ 
+ 
+ 
+ 
+ 
+ 
