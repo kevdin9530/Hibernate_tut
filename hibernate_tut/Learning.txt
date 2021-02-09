@@ -1,0 +1,23 @@
+ ////////////////////HIBERNATE/////////////////////
+ Hibernate is a framework for persisting/saving Java object in database
+ The benefit of hibernate is:
+ - handles all of low-level SQL
+ - Minimize the JDBC code need to develop 
+ - it also provides Object-to-Relational Mapping (ORM)
+ basically the developer need to define mapping between java class and database table
+ 
+ - To save object with hibernate, we use a special hibernate object, hibernate will store data in the database.
+ This allow u to skip writing the SQL code for inserting the data in database.
+ - To retrieve a given object, just give an id to hibernate, it will query the table according to the given id.
+ - To retrieve all java object instead of 1, basically u need to fetch a query from hibernate object from the
+ given java class object, then use query.list() to fetch for full dataobject.
+ - Hibernate CRUD Apps: Create/Read/Update/Delete objects
+ 
+ Relationship between Hibernate n JDBC:
+ - Hibernate use JDBC to communicate with the database. So Hibernate is just a layer of extraction of top of JDBC
+ 
+ To start with Hibernate u need:
+ - Java IDE
+ - Database server
+ - Hibernate JAR files and JDBC driver
+ 
