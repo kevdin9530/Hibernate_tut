@@ -46,6 +46,81 @@
  - Step 2: map fields to database column
  
  
+ //CREATE OBJECT
+ Two Key player in Hibernate Class
+ 1st is SessionFactory which read hibernate config file, connection to database and create a 
+ session object. You only need to create once in your app and reuse it over again and again
+ 
+ 2nd is Session: a wrapper around JDBC connection, main object for saving/retrieving objects
+ short lived and it's retrieved from SessionFactory 
+ 
+ basically create a sessionFactory by using 
+ new Configuration.configure("hibernate_config_file").addAnnotatedClass("class_save".class).buildSessionFactory()
+ then get the session with sessionfactory.getcurrentSession()
+ if you want to save or retrieve from database use the session and doing the transaction
+ session.beginTrans
+ session.save
+ session.getTransaction().commit(); to commit the transaction and so on
+ after finish close the session.close().
+ 
+ In hibernate you can specify which primary key column as a generation strategy
+ (Because we wont put the id by yourself but want it automatically according to your database)
+ The Anno is @GeneratedValue(strategy=GenerationType.IDENTITY)
+ There are different generation like 
+ .AUTO let it pick most appropriate strategy for this database
+ .IDENTITY using database identity column
+ .SEQUENCE primary key using database sequence
+ .TABLE primary key using an underlying database table to ensure uniqueness
+ 
+ You can also make a custome generator. To do this you need
+ - Create implementation: org.hibernate.id.IdentifierGenerator
+ - Override the method: public Serilizable generate(...) with you business logic
+ Warning!!!!! You need to ensure your generator always create a unique value. 
+ Should work with high-volume and multi-thread enviroment
+ Should also work in a clustered enviroment incase you are using it in server clusters..
+ 
+ If you want to change the auto increment value you can alter it through MySQL
+ run this code in query
+ ALTER TABLE database_name.table_name AUTO_INCREMENT = value you want to change
+ Incase you want to reset the counter, you can delete all the row and reset the counter
+ you can do this by
+ truncate database_name.table_name
+ 
+ ///READ OBJECT
+ Retrieve object with Hibernate
+ basically create a session then use
+ session.get(class_name.class, primary_key_identifier) 
+ This is for simple read object. If you want to read a list you can do it by create a query like
+ session.createQuery("from Java_class_name").getResultList()
+ if you want to be more specific with the query. You can add in, 
+ "from Student s where s.lastName = 'Doe' OR s.firstName='Kevin'")
+ '%....' % indicate searching anything that has end with .... after %
+ lastName is java property name which u write in your own class, not the SQL column name
+ 
+ //UPDATE OBJECT
+ basic you need to retrieve a an object according to primary_key_identifier
+ then set the value you want to update with setter/getter method of your class
+ this is only work for single object update
+ if you want to update all then you can simply create a query 
+ Exp: session.createQuery("update Student set email ='not_email@gmail.com'").executeUpdate()
+ similar to read object, you can add where, OR and other searching parameter to only update specific object
+ 
+ //DELETE OBJECT 
+ you retreieve the object 
+ then delete the object from the session and then commit transaction
+ another way is createQuery("delete from Student where id=2").executeUpdate() for example
+ 
+ !!!!!!!!!!OBS!!!!!!!!!!!!! 
+ If you alter you database (adding column, remove column bla bla and so on)
+ You need to update ur table in MYSQL 
+ Ex code: 
+ ALTER TABLE `hb_student_tracker`.`student` 
+ADD COLUMN `date_of_birth` DATETIME NULL AFTER `last_name`;
+ and update your class, and application and so on......
+
+ 
+ 
+ 
  
  
  
