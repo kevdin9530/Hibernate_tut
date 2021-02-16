@@ -117,6 +117,68 @@
  ALTER TABLE `hb_student_tracker`.`student` 
 ADD COLUMN `date_of_birth` DATETIME NULL AFTER `last_name`;
  and update your class, and application and so on......
+ 
+ 
+ For Advance Mapping, usually in a database you will have multiple table and 
+ there are relationship between tables. So we need to model this with hibernate such as
+ One-to-one
+ One-to-many
+ many-to-one
+ many-to-many 
+ 4 simple relationship concept of database
+ ex for one-to-one like an instructor can have an instructor detail
+ ex for one-to-many : an instructor can have many courses
+ ex for many-to-many: a course can have many students and a student can have many courses
+ 
+ Reminder about database concept such as
+ - primary key: identify a unique row in a table
+ - foreign key: a field in one table that refer to a primary key of another table (link table together)
+ - cascade operation mean that u can apply same operation on related entities 
+ ex: u have instrutor table link with instructor detail, if i save an instructor then it will also 
+ save the instructor detail. This also apply for delete. in MySql is CASCADE DELETE. 
+ OBS!!!! Depend on ur mapping relationship, u will use cascade delete when you need to..
+ 
+ Fetch type: how to retrieve data
+ - Eager: get everything
+ - Lazy: get on request 
+ 
+ Uni Directional: basically a one way relationship, through instructor u can get instructor detail
+ Bi-Directional: a two-way-relationship, u can get instructor detail through an instructor and even the opposite
+ 
+ To coding for One-to-one development process:
+ -Define database table
+ -Create InstructorDetail
+ -Create Instructor class
+ -Create Main App to run
+ 
+  When ref a foreign key, it should be valid data to references another primary key of another table
+  else it would destroy the relationship
+  
+  To understand more about cascade type, we need to know about Entity Life cycle
+  - Detach: if entity is detached, it isnt associate with hibernate session
+  - Merge: if entity is detached from a session, the merge will reattach it
+  - Persist: transition new instance will manage state, next flush/commit will save in db
+  - remove: transition managed entity to be removed. Next flush/commit will delete from db
+  - refresh: reload/synch object with data from db. Prevents stale data.
+  
+  Cascate type:
+  - PERSIST: if entity is persisted/save, related entity will also be persisted.
+  - REMOVE: if entity is removed/deleted, related entity will also be removed.
+  - REFRESH: same as above but with refreshed....
+  - DETACH:...
+  - MERGE:...
+  - ALL: all above cascate type
+  
+  Config cascade type in java:
+  @OneToOne(cascade=CascadeType.ALL)
+  by default, no operation is cascade
+  config multiple cascade type
+  cascade={CascadeType.DETACH,CascadeType.PERSIST,....}
+  
+  
+ 
+ 
+  
 
  
  
