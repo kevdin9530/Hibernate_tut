@@ -24,9 +24,9 @@ public class CreateOneToOne {
 		try {
 			
 			//create an object
-			Instructor ins = new Instructor("Kevin","Dinh","kevdin3095@gmail.com");
+			Instructor ins = new Instructor("Filip","Hanson","filhan@gmail.com");
 			//associate the object
-			ins.setInstructorDetailID(new InstructorDetail("MyKevinYoutube","Coding n gaming"));
+			ins.setInstructorDetailID(new InstructorDetail("FlippeChannel","Gaming"));
 			
 			//start transaction
 			s.beginTransaction();

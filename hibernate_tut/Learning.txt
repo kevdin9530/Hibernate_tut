@@ -175,6 +175,43 @@ ADD COLUMN `date_of_birth` DATETIME NULL AFTER `last_name`;
   config multiple cascade type
   cascade={CascadeType.DETACH,CascadeType.PERSIST,....}
   
+  When we set Bi-directional mapping. We dont need to change the database schema.
+  You just need to update the sub-class which is the foreign key of your main class.
+  the sub-class should have a ref to main class and a get/set method to get it. 
+  Also add @OneToOne(mappedBy="refer_to_the_main_class_property_which_is_the_sub_class")
+  the property name is the one you name in your class java, not the database name
+  
+  Code Refractoring and Exception Handling
+  just put try catch to get the exception handling. If you dont do this, it will create a session leak
+  
+  If you only want to remove the sub-class but not the main class, put the CascadeType of everything except Remove
+  But if you have bi-directional relationship, you need to break the link between in order to remove only 
+  the sub class. You need to set the related property of the main class to null
+  basically subclass_to_be_deleted.get_mainclass.setSubclass(null)
+  
+  For ManyToOne and OneToMany, you dont need Cascade REMOVE
+  Development OneToMany
+  - Define Database table
+  - Create new class for OneToMany
+  - Update current Main Associated class
+  - Create a new main app
+  
+  To prevent dupicated data, remember to add UNIQUE KEY When creating a table in database to prevent it
+  
+  To set up one to many and many to one bi-directional
+  The ManyToOne need to set up Anno @ManyToOne(cascade=CascadeType.ANY_EXCEPT_REMOVE) 
+  and @JoinColumn(name="field_property_pointing_to_main_class")
+  For OneToMany you need to add mappedBy="refer_to_field_property_of_sub_class_that_link_to_main_class" and cascade
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
   
  
  
