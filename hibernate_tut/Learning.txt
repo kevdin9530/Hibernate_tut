@@ -203,6 +203,40 @@ ADD COLUMN `date_of_birth` DATETIME NULL AFTER `last_name`;
   and @JoinColumn(name="field_property_pointing_to_main_class")
   For OneToMany you need to add mappedBy="refer_to_field_property_of_sub_class_that_link_to_main_class" and cascade
   
+  Fetch Type:
+  - Eager: retrieve everything. It will load all dependent entities. Very bad if you
+  have a lot of entities. For ex: a university course can have up to hundred of students.
+  The eager type will load both the course and all the student relate to the course. 
+  It will take a lot of time and slow down performance. 
+  - Lazy: retrieve on request. The most common used in the industry. It will load the main entity first, 
+  and then it will load dependent entites on demand/request. 
+  When define mapping relation u can add a fetch type eager or lazy
+  For ex: @OneToMany(fetch=fetchType.LAZY)
+  Default fetch type depend on mapping relationship
+  @OneToOne default is EAGER
+  @OneToMany default is LAZY
+  @ManyToOne default is EAGER
+  @ManyToMany default is LAZY
+  
+  As for lazy loading, the data on retrieve on demand so this requires an open hibernate session. This need 
+  an connection to database to retrieve data. If the session is closed ur attempt to retrieve the data
+  will thrown an exception. There are many other way to do this but most common 2 options to do this is:
+  - 1. session.get and call approriate getter method
+  - 2. Hibernate query with HQL 
+  
+  Hibernate @OneToMany with Uni-directional
+  
+  For @ManyToMany relationship Hibernate will use a medium Join Table to connect 2 table
+  Join Table is a table that will provides a mapping between 2 tables. It has foreign keys 
+  for each table to define the mapping relationship.
+  And to do this, in your main class. 
+  add @ManyToMany and @JoinTable 
+  in @JoinTable, you need to:
+  - define name="the join table name in mysql db"
+  - joinColumns=@JoinColumn(name="property/field of the jointable that point to current table")
+  - inverseJoinColumns=@JoinColumn(name="property/field of the jointable that point to other table")
+  
+  
   
   
   
